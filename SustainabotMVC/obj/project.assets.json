@@ -10225,19 +10225,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\renee\\.nuget\\packages\\": {}
+    "C:\\Users\\Brian\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\renee\\Documents\\GitHub\\Sustainabot\\SustainabotMVC\\SustainabotMVC.csproj",
+      "projectUniqueName": "C:\\Users\\Brian\\git\\Sustainibot\\SustainabotMVC\\SustainabotMVC.csproj",
       "projectName": "SustainabotMVC",
-      "projectPath": "C:\\Users\\renee\\Documents\\GitHub\\Sustainabot\\SustainabotMVC\\SustainabotMVC.csproj",
-      "packagesPath": "C:\\Users\\renee\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\renee\\Documents\\GitHub\\Sustainabot\\SustainabotMVC\\obj\\",
+      "projectPath": "C:\\Users\\Brian\\git\\Sustainibot\\SustainabotMVC\\SustainabotMVC.csproj",
+      "packagesPath": "C:\\Users\\Brian\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Brian\\git\\Sustainibot\\SustainabotMVC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\renee\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Brian\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

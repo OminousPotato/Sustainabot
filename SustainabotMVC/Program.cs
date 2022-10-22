@@ -8,12 +8,12 @@ builder.Services.AddDbContext<SustainabotMVCContext>(options =>
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<SustainabotMVCContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext")));
+        options.UseSqlite(builder.Configuration.GetConnectionString("SustainabotMVCContext")));
 }
 else
 {
     builder.Services.AddDbContext<SustainabotMVCContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcMovieContext")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionSustainabotMVCContext")));
 }
 
 // Add services to the container.
