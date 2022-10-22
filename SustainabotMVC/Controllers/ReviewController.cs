@@ -19,11 +19,18 @@ namespace SustainabotMVC.Controllers
         }
 
         // GET: Review
-        public async Task<IActionResult> Index()
+        // search function 
+        public async Task<IActionResult> Index(string searchString)
         {
-              return _context.Review != null ? 
-                          View(await _context.Review.ToListAsync()) :
-                          Problem("Entity set 'SustainabotMVCContext.Review'  is null.");
+            var review = from m in _context.Review
+                        select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                review = review.Where(s => s.Company!.Contains(searchString));
+            }
+
+            return View(await review.ToListAsync());
         }
 
         // GET: Review/Details/5
