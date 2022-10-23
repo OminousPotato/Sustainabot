@@ -12,5 +12,7 @@ using SustainabotMVC.Models;
         {
         }
 
+        public DbSet<SustainabotMVC.Models.ReviewImgFile> ReviewImgFile { get; set; } = default!;
+
         public DbSet<SustainabotMVC.Models.Review> Review { get; set; } = default!;
     }

@@ -12,10 +12,12 @@ namespace SustainabotMVC.Controllers
     public class ReviewController : Controller
     {
         private readonly SustainabotMVCContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;  
 
-        public ReviewController(SustainabotMVCContext context)
+        public ReviewController(SustainabotMVCContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Review
@@ -69,11 +71,21 @@ namespace SustainabotMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Company,Product,Rating,Summary,ImgPath")] Review review)
+        public async Task<IActionResult> Create([Bind("Id,Company,Product,Rating,Summary,ImgFile")] ReviewImgFile review)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(review);
+                string uniqueFileName = UploadedFile(review);
+
+                Review trueReview = new Review {
+                    Company = review.Company,
+                    Product = review.Product,
+                    Rating = review.Rating,
+                    Summary = review.Summary,
+                    ImgPath = uniqueFileName,
+                };
+
+                _context.Add(trueReview);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -83,12 +95,12 @@ namespace SustainabotMVC.Controllers
         // GET: Review/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Review == null)
+            if (id == null || _context.ReviewImgFile == null)
             {
                 return NotFound();
             }
 
-            var review = await _context.Review.FindAsync(id);
+            var review = await _context.ReviewImgFile.FindAsync(id);
             if (review == null)
             {
                 return NotFound();
@@ -134,12 +146,12 @@ namespace SustainabotMVC.Controllers
         // GET: Review/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Review == null)
+            if (id == null || _context.ReviewImgFile == null)
             {
                 return NotFound();
             }
 
-            var review = await _context.Review
+            var review = await _context.ReviewImgFile
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (review == null)
             {
@@ -154,14 +166,14 @@ namespace SustainabotMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Review == null)
+            if (_context.ReviewImgFile == null)
             {
                 return Problem("Entity set 'SustainabotMVCContext.Review'  is null.");
             }
-            var review = await _context.Review.FindAsync(id);
+            var review = await _context.ReviewImgFile.FindAsync(id);
             if (review != null)
             {
-                _context.Review.Remove(review);
+                _context.ReviewImgFile.Remove(review);
             }
             
             await _context.SaveChangesAsync();
@@ -170,8 +182,25 @@ namespace SustainabotMVC.Controllers
 
         private bool ReviewExists(int id)
         {
-          return (_context.Review?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.ReviewImgFile?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        private string UploadedFile(ReviewImgFile model)  
+        {  
+            string uniqueFileName = null;  
+  
+            if (model.ImgFile != null)  
+            {  
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");  
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImgFile.FileName;  
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);  
+                using (var fileStream = new FileStream(filePath, FileMode.Create))  
+                {  
+                    model.ImgFile.CopyTo(fileStream);  
+                }  
+            }  
+            return uniqueFileName;  
+        }          
 
     }
 }
