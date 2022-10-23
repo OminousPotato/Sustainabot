@@ -1,69 +1,38 @@
 @model IEnumerable<SustainabotMVC.Models.Review>
 
 @{
-    ViewData["Title"] = "Index";
+    double avg = 0.0;
+    int count = 0;
+    foreach(var item in Model) {
+        avg += item.Rating;
+        count++;
+    }
+
+    if (count > 0) {
+        avg = avg / count;
+    }
+
+    double rating = Math.Round(avg, 2);
 }
 
-<h1>Index</h1>
+<div class="row">
+    <h1>@ViewData["Title"] - Rating: @rating/5</h1>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="flex-container">
 
-// search
-<form asp-controller="Review" asp-action="Index">
-    <p>
-        Title: <input type="text" name="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
-</form>
+        @foreach(var item in Model) 
+        {
+        <div class="mb-3" style="width:45%; float:left; margin-left:2%; margin-right:2%">
+            <div class="card border-primary">
+                <div class="card-header">@item.Rating / 5</div>
+                <div class="card-body">
+                    <h4 class="card-title">Product: @item.Product</h4>
+                    <p class="card-text">@item.Summary</p>
+                </div>
+            </div>
+        </div>
+        }
 
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Summary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImgPath)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImgPath)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>

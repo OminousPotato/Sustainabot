@@ -22,8 +22,15 @@ namespace SustainabotMVC.Controllers
         // search function 
         public async Task<IActionResult> Index(string searchString)
         {
+
+            if (searchString == null || searchString.Length == 0) {
+                return View("~/Views/Home/Index.cshtml");
+            }
+
             var review = from m in _context.Review
                         select m;
+
+            ViewData["Title"] = searchString;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -165,5 +172,6 @@ namespace SustainabotMVC.Controllers
         {
           return (_context.Review?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
     }
 }
